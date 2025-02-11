@@ -442,3 +442,6 @@ Now try with a *different* password, and see what is returned.
 
 Okay, that's a *very* basic CRUD endpoint with some rudimentary "authentication". Now, let's look at how we might want to test the API as if it was a "black box", that is, we are a consumer of the API, we don't have access to any of the internal workings.
 
+
+[>> Testing Our API CRUD Operations](./moretesting.md)
+
