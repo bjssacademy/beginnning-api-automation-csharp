@@ -591,4 +591,6 @@ namespace UserApiTests
 ```
 ---
 
+You can find the code [here](./code/UserApiTests/Patterns/).
 
+[>> A Different HttpClient](./restsharp.md)
