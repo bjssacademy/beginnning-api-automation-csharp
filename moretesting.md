@@ -32,7 +32,7 @@ Here's what we are going to do:
 
 ## **2. Define the User Model**  
 
-Create a new file **`User.cs`** inside the test project and add:  
+Create a new folder `Models`. Inside this folder, create a new file **`User.cs`** inside the test project and add:  
 
 ```csharp
 public class User
@@ -49,9 +49,9 @@ public class User
 
 ### **Step 1: Create a Test Class**  
 
-In **Solution Explorer**, open `UnitTest1.cs` and rename it to **`UserApiTests.cs`**.  
+In **Solution Explorer**, right-click `UnitTest1.cs` and rename it to **`UserApiTests.cs`**.  
 
-Replace the contents with the following, replacing the localhost URL with whatever your is:  
+Replace the contents with the following, replacing the localhost URL with whatever yours is:  
 
 ```csharp
 using System;
@@ -70,13 +70,13 @@ namespace UserApiTests
         [SetUp]
         public void Setup()
         {
-            _client = new HttpClient { BaseAddress = new Uri("http://localhost:5000/api/Users/") };  //replace URL with whatever your URL is
+            _client = new HttpClient { BaseAddress = new Uri("https://localhost:5000/api/Users/") };  //replace URL with whatever your URL is
         }
 
         [Test]
         public async Task CreateUser_ShouldReturnUser()
         {
-            var newUser = new User { Name = "JohnDoe", Password = "SecurePass123" };
+            var newUser = new User { Name = "John Doe", Password = "SecurePass123" };
 
             var response = await _client.PostAsJsonAsync("", newUser);
             response.EnsureSuccessStatusCode();
@@ -85,7 +85,7 @@ namespace UserApiTests
 
             Assert.NotNull(createdUser);
             Assert.Greater(createdUser.Id, 0);
-            Assert.AreEqual(newUser.Name, createdUser.Name);
+            Assert.That(createdUser.Name, Is.EqualTo(newUser.Name));
         }
 
         [Test]
@@ -101,6 +101,20 @@ namespace UserApiTests
         }
 
         [Test]
+        public async Task GetUser_ShouldReturnUser()
+        {
+            var response = await _client.GetAsync("1");
+            response.EnsureSuccessStatusCode();
+
+            var user = await response.Content.ReadFromJsonAsync<User>();
+
+            Assert.NotNull(user);
+            Assert.That(user.Id, Is.EqualTo(1));
+            Assert.That(user.Name, Is.EqualTo("John Doe"));
+            Assert.That(user.Password, Is.EqualTo("SecurePass123"));
+        }
+
+        [Test]
         public async Task UpdateUser_ShouldModifyUser()
         {
             var updatedUser = new User { Id = 1, Name = "JohnDoeUpdated", Password = "NewPass123" };
@@ -112,7 +126,7 @@ namespace UserApiTests
             var fetchedUser = await getUserResponse.Content.ReadFromJsonAsync<User>();
 
             Assert.NotNull(fetchedUser);
-            Assert.AreEqual("JohnDoeUpdated", fetchedUser.Name);
+            Assert.That(fetchedUser.Name, Is.EqualTo("JohnDoeUpdated"));
         }
 
         [Test]
@@ -122,7 +136,7 @@ namespace UserApiTests
             response.EnsureSuccessStatusCode();
 
             var getUserResponse = await _client.GetAsync("1");
-            Assert.AreEqual(System.Net.HttpStatusCode.NotFound, getUserResponse.StatusCode);
+            Assert.That(getUserResponse.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.NotFound));
         }
 
         [TearDown]
@@ -142,12 +156,46 @@ namespace UserApiTests
 
 ## **4. Running the Tests**  
 
+Restart the UserAuthAPI project before executing tests.
+
 ### **Step 1: Open Test Explorer**  
 1. Go to **Test → Test Explorer** in Visual Studio  
 
 ### **Step 2: Run the Tests**  
 1. Click **Run All**  
-2. Ensure all tests **pass**  
+
+ You should notice 2 pass, and three fail:
+
+ ![alt text](image-18.png)
+
+Oh dear. This is because NUnit runs tests in *alphabetical order*. We first *create* a user, then *delete* a user, which means our test to *get* users fails as there are not users to get, none to edit and so on!
+
+### **Step 3: Order Tests**
+
+We can temporarily get around this by adding an `Order` attribute to our test, like so:
+
+
+```cs
+[Test, Order(1)]
+public async Task CreateUser_ShouldReturnUser() 
+
+
+[Test, Order(2)]
+public async Task GetAllUsers_ShouldReturnUsers()
+
+```
+
+> :exclamation: You should already be feeling uneasy about having to do this. Don't worry, we're doing it on purpose.
+
+### **Step 4: Run the Tests**  
+1. Restart the `UserAuthAPI` project before executing tests:
+
+![alt text](image-19.png)
+
+2. Click **Run All** in the `UserApitTests` project 
+3. Check all tests pass:
+
+![alt text](image-20.png)
 
 ---
 
@@ -161,21 +209,30 @@ Now that you've successfully tested the **happy-path CRUD operations** for the `
 
 ---
 
-## ** Lab 1: Add Login Tests (`POST /api/Users/login`)**  
+## **Lab 1: Add Login Tests (`POST /api/Users/login`)**  
 **Goal:** Write a test to verify the login functionality.  
 
 ### **Tasks:**  
 1. Modify the `User` model to include login request/response handling if needed.  
 2. Create a **test method** for `POST /api/Users/login` that:  
    - Sends a **valid username and password**.  
-   - Asserts that the response is **successful** (e.g., contains a token or user details).  
+   - Asserts that the response is **successful** (e.g., contains a token or user details). 
+
+   > You will probably need to *deserialize* the *response* to a *class*, look at UpdateUser tests for a pattern. And here's the class:
+   ```cs
+        internal class LoginResponse
+        {
+            public long Id { get; set; }
+        }
+   ```
+
 3. Run the test and confirm that login works correctly.  
 
 📌 **Bonus:** Try logging in with an **incorrect password** and observe the response.  
 
 ---
 
-## ** Lab 2: Validate User Data Before Making API Calls**  
+## **Lab 2: Validate User Data Before Making API Calls**  
 **Goal:** Improve test reliability by validating test inputs.  
 
 ### **Tasks:**  
@@ -186,3 +243,5 @@ Now that you've successfully tested the **happy-path CRUD operations** for the `
 📌 **Bonus:** Try sending a request with an **empty name** and check if the API rejects it properly.  
 
 ---
+
+[>> Making Tests Independent](./atomicity.md)

@@ -428,7 +428,7 @@ public async Task<IActionResult> LoginUser(User user)
 
 ## Test the Login action
 
-Use the Swagger UI to POSt a new User with details, and then attempt to POST to the `api/users/login` endpoint. For instance, if you have a user with the name `Ted Tester` and a password of `password`:
+Use the Swagger UI to POST a new User with details, and then attempt to POST to the `api/users/login` endpoint. For instance, if you have a user with the name `Ted Tester` and a password of `password`:
 
 ![alt text](image-7.png)
 
