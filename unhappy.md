@@ -164,3 +164,7 @@ public async Task LoginUser_ShouldFail_WhenRequestBodyIsInvalid()
 - **Happy Path**: Tests what **should** happen (valid user logs in).  
 - **Unhappy Paths**: Test **what can go wrong** (invalid user, wrong password, bad request).  
 - **Why?** Unhappy path tests make APIs **more robust** by ensuring they handle failure cases correctly.  
+
+---
+
+[>> Mocking](./mocking.md)

@@ -35,3 +35,7 @@ However, once your application is deployed, you should also have **integration t
 ---
 
 Next, we’ll examine how to read and interpret an API contract/schema to build a reliable mock.
+
+---
+
+[>> Schema](./schema.md)

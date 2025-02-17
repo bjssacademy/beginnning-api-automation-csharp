@@ -112,3 +112,7 @@ This endpoint retrieves details about a previously processed payment.
 Now that we understand the API’s structure, we can proceed with **creating a mock implementation**. This mock will allow us to simulate the behaviour of the PayFast API, enabling us to test our payment integration **without relying on a live system**.  
 
 In the next section, we’ll build our mock API and make sure it mimics the real PayFast API contract.
+
+---
+
+[>> Wiremock.NET](./wiremockdotnet.md)
