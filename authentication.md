@@ -304,7 +304,7 @@ public IActionResult GetOrders()
 
 ---
 
-## The End
+## So MUCH MORE
 
 There's so much more we could do here - from making sure only the logged in user can delete their own account, to securing our endpoints using Role Based Authentication (RBAC). but for now this article has served its purpose of dealing with an introduction to testing APIs with C#.
 
@@ -349,3 +349,7 @@ public async Task<IActionResult> DeleteUser(long id)
     return NoContent();
 }
 ```
+
+---
+
+[>> Securing Our Passwords](./hashing.md)
