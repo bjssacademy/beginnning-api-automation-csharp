@@ -58,7 +58,7 @@ namespace UserAuthAPI.Models
 
 ## **Step 2: Create a Password Hashing Method**  
 
-We'll use **SHA256** for now. In **Part 2**, we’ll improve security by adding salting.  
+We'll use **SHA256** for now. In the next chapter we’ll improve security by adding salting.  
 
 First, create a new folder named `Helpers` and add a new class `PasswordHasher.cs`:
 
