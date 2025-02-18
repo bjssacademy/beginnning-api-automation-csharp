@@ -358,13 +358,18 @@ Right now, if two users choose the same password, their hashed passwords will ma
 ## **Why Hashing Alone Isn't Enough**
 While hashing protects passwords from direct exposure, **it has weaknesses**:
 1. **Same password → same hash**  
+
    - If two users have the same password, their hashes will be identical.  
+
 2. **Precomputed attacks (Rainbow Tables)**  
-   - Hackers can use databases of precomputed hash values to crack weak passwords.  
+
+   - Hackers can use databases of precomputed hash values to crack weak passwords. 
+
 3. **Fast brute-force attacks**  
+
    - Algorithms like SHA256 are designed to be fast, making brute-force attacks easier.
 
-In **Part 2**, we’ll introduce **salting**, which ensures that even identical passwords result in different hashes. 
+Next up we’ll introduce **salting**, which ensures that even identical passwords result in different hashes. 
 
 ---
 
