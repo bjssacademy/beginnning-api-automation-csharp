@@ -185,9 +185,15 @@ Now, instead of directly comparing passwords, we **re-hash the entered password 
 
 ## **Key Security Pointers**  
 
-1. **Prevent Rainbow Table Attacks** – Since each password gets a unique salt, precomputed hash databases become useless.  
-2. **Prevent Identical Hashes** – Even if two users have the same password, their stored hashes will be different.  
-3. **Industry Standard** – This is the method used by secure authentication systems.
+1. **Prevent Rainbow Table Attacks** 
+    
+    Since each password gets a unique salt, precomputed hash databases become useless.  
+2. **Prevent Identical Hashes** 
+
+    Even if two users have the same password, their stored hashes will be different.  
+3. **Industry Standard** 
+    
+    This is the method used by secure authentication systems.
 
 ---
 
